@@ -1,0 +1,7 @@
+contact_links:
+  - name: Discussions
+    url: https://github.com/Emmanuel-Arokiaraj/helancode/discussions
+    about: Ask questions and discuss ideas.
+  - name: Security Vulnerabilities
+    url: https://github.com/Emmanuel-Arokiaraj/helancode/security/advisories/new
+    about: Report security vulnerabilities privately.
