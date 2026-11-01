@@ -1,0 +1,48 @@
+name: "Lint and Tests"
+
+on:
+  push:
+    branches:
+      - staging
+      - prod
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  code-verification:
+    runs-on: "ubuntu-latest"
+    steps:
+      # 1. Checkout the Code
+      - name: "Checkout Code"
+        uses: "actions/checkout@v3"
+
+      # 2. Install Rust toolchain
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      # 3. Cache Cargo dependencies and build artifacts
+      - name: Cache Cargo
+        uses: Swatinem/rust-cache@v2
+
+      # 4. Format Check
+      - name: Code Format Verification
+        run: cargo fmt --all -- --check
+
+      # 5. Type and compilation check
+      - name: Cargo Check
+        run: cargo check --all-targets --all-features
+
+      # 6. Lint
+      - name: Clippy
+        run: cargo clippy --all-targets --all-features -- -D warnings
+
+      # 7. Run tests
+      - name: Tests
+        run: cargo test --all-features
+
+      # 8. Production build
+      - name: Release Build
+        run: cargo build --release
